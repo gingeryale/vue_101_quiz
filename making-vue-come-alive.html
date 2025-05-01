@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue 3.4 LIVE SERVER</title>
+  <link rel="stylesheet" href="https://unpkg.com/normalize.css/normalize.css">
+  <style type="text/css">
+    body {
+      font-family: monospace;
+      padding: 20px;
+      font-size: 2em;
+    }
+    .drive-yes{
+      color: green;
+      text-decoration: underline;
+    }
+    .drive-no{
+      color: red;
+    }
+  </style>
+  <script src="https://unpkg.com/vue@3.4.0"></script>
+</head>
+
+<body>
+  <div id="app">
+    <div>
+     <div> {{message}}</div>
+     <div>
+      <label for="age">Enter your age:</label>
+      <input name="age" type="text" v-model="age">
+     </div>
+     <div>Can you drive: 
+      <span 
+      :class="{'drive-yes': canDrive==='yes', 'drive-no': canDrive==='no'}">
+      {{ canDrive }}
+    </span>
+  </div>
+    </div>
+  </div>
+  <script>
+    const { createApp, ref, computed} = Vue;
+    const App = {
+      setup() {
+        let message = ref("New Message LET");
+        let age=ref(null);
+        let canDrive = computed(
+          ()=>{
+            console.log('computed');
+            return age.value >= 18 ? 'yes' : 'no';
+          }
+        )
+
+        setTimeout(()=>{
+          console.log('Changed');
+          message.value= 'Time\'s UP!';
+          age.value=55;
+        },3000);
+        return{
+          message,
+          canDrive,
+          age
+        }
+      },
+    };
+
+    createApp(App).mount('#app');
+  </script>
+</body>
+
+</html>
